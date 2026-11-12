@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | EduLearn Academy</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+
+        <a class="brand" href="index.html">
+            <i class="bi bi-mortarboard-fill"></i>
+            Edu<span>Learn</span>
+            <small>ADMIN PANEL</small>
+        </a>
+
+        <p class="nav-label">MENU</p>
+
+        <nav>
+            <a class="nav-link active" href="index.html">
+                <i class="bi bi-grid"></i> Dashboard
+            </a>
+
+            <a class="nav-link" href="courses.html">
+                <i class="bi bi-journals"></i> Courses
+            </a>
+
+            <a class="nav-link" href="students.html">
+                <i class="bi bi-people"></i> Students
+            </a>
+
+            <a class="nav-link" href="registrations.html">
+                <i class="bi bi-clipboard-check"></i> Registrations
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="admin">
+                <b>EA</b>
+                <span>Admin<small>Administrator</small></span>
+            </div>
+
+            <button id="logout" class="logout">
+                <i class="bi bi-box-arrow-left"></i> Log out
+            </button>
+        </div>
+
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="d-flex align-items-center gap-3">
+
+                <button class="btn btn-light d-lg-none" id="menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div>
+                    <small>EDULEARN ACADEMY</small>
+                    <h1>Dashboard Overview</h1>
+                </div>
+
+            </div>
+
+            <span id="date"></span>
+
+        </header>
+
+        <div class="content">
+
+            <div class="welcome">
+
+                <div>
+                    <h2>Welcome back, Admin 👋</h2>
+                    <p>Here's what's happening at your academy today.</p>
+                </div>
+
+                <a href="courses.html" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Add a course
+                </a>
+
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats">
+
+                <article>
+                    <span>Total Courses</span>
+                    <i class="bi bi-journals"></i>
+                    <strong id="totalCourses">0</strong>
+                    <small>Courses in your academy</small>
+                </article>
+
+                <article>
+                    <span>Total Students</span>
+                    <i class="bi bi-people"></i>
+                    <strong id="totalStudents">0</strong>
+                    <small>Unique registered students</small>
+                </article>
+
+                <article>
+                    <span>Total Registrations</span>
+                    <i class="bi bi-clipboard-check"></i>
+                    <strong id="totalRegistrations">0</strong>
+                    <small>All applications</small>
+                </article>
+
+                <article>
+                    <span>Active Courses</span>
+                    <i class="bi bi-play-circle"></i>
+                    <strong id="activeCourses">0</strong>
+                    <small>Currently available</small>
+                </article>
+
+            </div>
+
+            <!-- Recent Registrations -->
+            <div class="panel">
+
+                <div class="panel-title">
+
+                    <div>
+                        <h3>Recent registrations</h3>
+                        <p>Latest student applications</p>
+                    </div>
+
+                    <a href="registrations.html"
+                       class="btn btn-sm btn-outline-primary">
+                        View all
+                    </a>
+
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th>Student</th>
+                                <th>Course</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recent"></tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+            <footer>
+                © 2026 EduLearn Academy
+                <span>Admin Dashboard · Local demo storage</span>
+            </footer>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+ <script src="admin.js"></script>
+<script>
+// ========================================
+// Dashboard JavaScript
+// ========================================
+
+function dashboard() {
+
+    const courses = read(KEY_C);
+    const regs = read(KEY_R);
+
+    // Statistics
+    $("totalCourses").textContent = courses.length;
+
+    $("totalStudents").textContent = students().length;
+
+    $("totalRegistrations").textContent = regs.length;
+
+    $("activeCourses").textContent =
+        courses.filter(c => c.status === "Active").length;
+
+    // Latest 5 registrations
+    const latest = [...regs]
+        .sort((a, b) =>
+            new Date(b.date || 0) - new Date(a.date || 0)
+        )
+        .slice(0, 5);
+
+    $("recent").innerHTML = latest.length
+
+        ? latest.map(r => `
+            <tr>
+                <td>${safe(r.name)}</td>
+                <td>${safe(r.course)}</td>
+                <td>${date(r.date)}</td>
+                <td>${badge(r.status || "Pending")}</td>
+            </tr>
+        `).join("")
+
+        : `
+            <tr>
+                <td colspan="4" class="text-center text-secondary">
+                    No registrations yet.
+                </td>
+            </tr>
+        `;
+}
+
+dashboard();
+</script>
+
+</body>
+</html>
