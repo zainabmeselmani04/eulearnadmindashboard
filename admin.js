@@ -37,6 +37,67 @@ const write = (key, value) => {
 if (!localStorage.getItem(KEY_C)) {
     write(KEY_C, starter);
 }
+// ========================================
+// Default Student Data
+// ========================================
+
+const starterStudents = [
+    {
+        id: "S001",
+        name: "Sarah Ahmad",
+        email: "sarah@gmail.com",
+        phone: "70123456",
+        course: "Web Development",
+        date: "2026-11-01",
+        status: "Approved",
+        message: "Interested in learning web development."
+    },
+    {
+        id: "S002",
+        name: "Mohammad Ali",
+        email: "mohammad@gmail.com",
+        phone: "76123456",
+        course: "Python Programming",
+        date: "2026-11-03",
+        status: "Pending",
+        message: "I want to learn Python."
+    },
+    {
+        id: "S003",
+        name: "Lina Hassan",
+        email: "lina@gmail.com",
+        phone: "81123456",
+        course: "Graphic Design",
+        date: "2026-11-05",
+        status: "Approved",
+        message: "Interested in graphic design."
+    },
+    {
+        id: "S004",
+        name: "Omar Khalil",
+        email: "omar@gmail.com",
+        phone: "71111222",
+        course: "Data Analysis",
+        date: "2026-11-07",
+        status: "Pending",
+        message: "I want to improve my data analysis skills."
+    },
+    {
+        id: "S005",
+        name: "Maya Ibrahim",
+        email: "maya@gmail.com",
+        phone: "76111999",
+        course: "Digital Marketing",
+        date: "2026-11-10",
+        status: "Rejected",
+        message: "Interested in digital marketing."
+    }
+];
+
+// Save default students only once
+if (!localStorage.getItem(KEY_R)) {
+    write(KEY_R, starterStudents);
+}
 
 // Security helper
 const safe = s => String(s ?? "").replace(/[&<>"']/g, c => ({
