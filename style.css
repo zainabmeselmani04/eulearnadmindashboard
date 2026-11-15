@@ -567,6 +567,13 @@ footer {
     align-self: flex-end;
     margin-top: 10px;
 }
+ .section-head .btn{
+    align-self: flex-end;
+    margin-top: 10px;
+}
+
+
+  
 
 /* Small Mobile */
 
