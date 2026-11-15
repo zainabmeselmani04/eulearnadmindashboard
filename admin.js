@@ -162,12 +162,38 @@ if ($("date")) {
 }
 
 // Mobile menu
-if ($("menu")) {
-    $("menu").onclick = () => {
-        $("sidebar").classList.toggle("open");
-    };
-}
 
+if ($("menu")) {
+
+    const menu = $("menu");
+    const sidebar = $("sidebar");
+
+    // Open and close menu using burger icon
+    menu.onclick = (e) => {
+        e.stopPropagation();
+        sidebar.classList.toggle("open");
+    };
+
+    // Close menu when clicking outside the sidebar
+    document.addEventListener("click", (e) => {
+
+        if (
+            sidebar.classList.contains("open") &&
+            !sidebar.contains(e.target) &&
+            !menu.contains(e.target)
+        ) {
+            sidebar.classList.remove("open");
+        }
+
+    });
+
+    // Close menu when pressing Escape
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+            sidebar.classList.remove("open");
+        }
+    });
+}
 // Logout
 if ($("logout")) {
     $("logout").onclick = () => {
